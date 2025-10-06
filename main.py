@@ -8,11 +8,14 @@ import sys
 
 DEFAULT_FILENAME = "words.txt"
 DEFAULT_DUPLICATES = False
+DEFAULT_ORDER = "asc"
 
-
-def sort_list(items, ascending=True):
+def sort_list(items, ascending=True, remove_duplicates=False):
     if not isinstance(items, list):
         raise RuntimeError(f"No puede ordenar {type(items)}")
+    
+    if remove_duplicates:
+        items = remove_duplicates_from_list(items)
 
     return sorted(items, reverse=(not ascending))
 
@@ -24,12 +27,15 @@ def remove_duplicates_from_list(items):
 if __name__ == "__main__":
     filename = DEFAULT_FILENAME
     remove_duplicates = DEFAULT_DUPLICATES
+    order = DEFAULT_ORDER
     if len(sys.argv) == 3:
         filename = sys.argv[1]
         remove_duplicates = sys.argv[2].lower() == "yes"
+        order = sys.argv[3].lower()
     else:
         print("Se debe indicar el fichero como primer argumento")
         print("El segundo argumento indica si se quieren eliminar duplicados")
+        print("El tercer argumento indica si se quieren imprimir en orden asc o desc")
         sys.exit(1)
 
     print(f"Se leerán las palabras del fichero {filename}")
